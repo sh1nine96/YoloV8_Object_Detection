@@ -80,7 +80,7 @@ result = results[0]
 
 # lets count the number of detected objects in the image
 num_objects = len(result.boxes)
-# print(f"Number of detected objects: {num_objects}")
+print(f"Number of detected objects: {num_objects}")
 
 # Lets inspect the first detected object in the image
 # Each Detection contains the following attribute:
@@ -95,3 +95,27 @@ print(box)
 class_id = int(box.cls[0])  # class ID of the first detected object
 confidence = float(box.conf[0])  # confidence score of the first detected object
 print(f"Class ID: {class_id}, Confidence: {confidence:.2f}")
+
+
+
+# now we will extract class names of the detected objects in the image.
+# The model.names attribute contains a dictionary that maps class IDs to class names.
+
+# print(model.names) # print the class names of the model
+
+class_name = model.names[class_id]  # get the class name of the first detected object
+print(f"Class Name: {class_name}")
+
+
+# display every detected object along with its class name and confidence score
+
+print("Detected Objects:")
+print("*" * 30)
+for box in result.boxes:
+    class_id = int(box.cls[0])  # class ID of the detected object
+    confidence = float(box.conf[0])  # confidence score of the detected object
+    class_name = model.names[class_id]  # get the class name of the detected object
+    print(f"Class Name: {class_name}, Confidence: {confidence:.2f}")
+
+print("*" * 30)
+
