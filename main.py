@@ -1,14 +1,22 @@
 import cv2
 import matplotlib.pyplot as plt
-from src.utils import get_project_paths
 from src.predict import load_model, predict_image
 from src.visualize import draw_predictions
+from src.utils import (
+    get_project_paths,
+    setup_logger
+)
 
 #get project paths
 paths = get_project_paths()
 
+# logger
+logger = setup_logger()
+logger.info("project started") # date time | INFO | project started
+
 # load model
 model = load_model()  # load a pretrained YOLOv8n model
+logger.info("YOLO model loaded successfully") # date time | INFO | YOLO model loaded successfully
 
 #input image path
 image_paths = list(paths["images"].glob("*.jpg"))  # get all jpg images in the images folder
@@ -25,6 +33,7 @@ for image_path in image_paths:
 for image_path in image_paths:
     #read image
     image = cv2.imread(str(image_path))
+    logger.info(f'loaded image: {image_path.name}') # date time | INFO | loaded image: street.jpg
 
     #Detect objects in the image
     results = predict_image(
@@ -32,6 +41,7 @@ for image_path in image_paths:
         image_path,
         conf=0.5
     )
+    logger.info("Object Detection completed")
 
     # draw detections on the image
     annotated_image = draw_predictions(
@@ -39,6 +49,8 @@ for image_path in image_paths:
         results[0], 
         model
         )
+
+    logger.info("Bounding boxes drawn")
     
 
     # Convert BGR to RGB for displaying with matplotlib
@@ -53,6 +65,12 @@ for image_path in image_paths:
     plt.title(f"Detected Objects in {image_path.name}")
     plt.axis('off')
     plt.show()
+
+    logger.info("programme finished successfully")
+
+
+    # logger.info
+    # HW --> logger.warning(), logger.error()
 
 # # read image
 # image = cv2.imread(str(image_path))
@@ -76,3 +94,4 @@ for image_path in image_paths:
 # plt.title("Detected Objects")
 # plt.axis('off')
 # plt.show()
+
