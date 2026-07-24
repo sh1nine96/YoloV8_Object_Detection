@@ -10,9 +10,18 @@ def load_model(model_name = "yolov8n.pt"):
         model_name (str): Name of the YOLO model to load. Default is 'yolov8n.pt'.
     Returns:
         YOLO: Loaded YOLO model.
+
+        if model can't be loaded then raise RunTimeError
     """
-    model = YOLO(model_name)
-    return model
+
+    try:
+
+        model = YOLO(model_name)
+        return model
+    except Exception as error:
+        raise RuntimeError(
+            f'Unable to load YOLO model.\n{error}'
+        )
 
 
 def predict_image(model, image_path, conf=0.5):
@@ -32,3 +41,14 @@ def predict_image(model, image_path, conf=0.5):
         verbose=False, #this will suppress the verbose output of the model
     )
     return results
+
+def validate_confidence(confidence):
+    """
+    it will validate confidence threshold
+    Acceptable range 0 to 1
+    """
+
+    if not 0 <= confidence <= 1:
+        raise ValueError(
+            "confidence must be between 0 to 1"
+        )

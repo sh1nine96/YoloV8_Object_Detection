@@ -38,7 +38,7 @@ def setup_logger():
 
     logging.basicConfig(
         level=logging.INFO,  # INFO, warning, error
-        format="%(asctime)s | %(level_name)s | %(message)s"  #21-07-2026 14:58:30, message --> Model loaded succcesfully
+        format="%(asctime)s | %(levelname)s | %(message)s"  #21-07-2026 14:58:30, message --> Model loaded succcesfully
     )
 
     return logging.getLogger(__name__)
